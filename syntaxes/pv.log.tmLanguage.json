@@ -7,26 +7,15 @@
   ],
   "patterns": [
     {
-      "//comment": "Prevent coloring ProVerif statements",
+      "//comment": "Prevent coloring ProVerif process statements, as too complex for this grammar",
       "match" : "({[0-9]+})(.+)",
       "captures": {
         "1": { "name": "comment.block.proverif" }
       }
     },
     {
-      "//comment": "Declaration of facts",
-      "begin" : "\\b(attacker|mess|table|attacker2|mess2|table2)\\(",
-      "end": "\\)",
-      "beginCaptures": {
-        "1": { "name": "keyword.control.proverif" }
-      },
-      "patterns": [
-        { "include": "#fact"}
-      ]
-    },
-    {
-      "//comment": "Declaration of events",
-      "begin" : "\\b(event|event2|b-event|b-event2)\\(",
+      "//comment": "Declaration of facts or events",
+      "begin" : "\\b(attacker2|mess2|table2|b-event2|event2|attacker|mess|table|b-event|event)\\(",
       "end": "\\)",
       "beginCaptures": {
         "1": { "name": "keyword.control.proverif" }
@@ -45,6 +34,13 @@
       "patterns": [
         { "include": "#fact"}
       ]
+    },
+    {
+      "//comment": "Declaration of inline text facts",
+      "match" : "([Tt]he (message|entry|function|event)|on channel|resp\\.( (event|message))?|initially knows|creates the new name|tests whether|may know|may obtain|has some term) ([^ ]+)",
+      "captures": {
+        "5": {"patterns": [{ "include": "#fact"}] }
+      }
     },
     {
       "//comment" : "Equalities",
